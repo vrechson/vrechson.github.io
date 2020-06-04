@@ -58,27 +58,29 @@
 <h2 id="technical-overview">Technical Overview</h2>
 <p>The objective here is to find and exploit a 0day in a tool called <a href="https://github.com/AliasIO/wappalyzer">Wappalyzer</a> (version 6.0.2), which runs a lot of regex expressions against web pages to identify which technologies are running. As you can see <a href="https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454">here</a>, regex isn&rsquo;t the proper way to parse HTML leading to problems like the ones shown in this challenge.</p>
 <p>With further analysis, this tool opens a web page (using puppeteer) and splits it into different groups. Such as: meta tags, HTML code, script tags, javascript variables, HTTP headers, etc. Then, each group is parsed by its group corresponding to the regular expression in source code, like the example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON"><span style="color:#e6db74">&#34;Vue.js&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
-  <span style="color:#f92672">&#34;cats&#34;</span>: [
-    <span style="color:#ae81ff">12</span>
-  ],
-  <span style="color:#f92672">&#34;html&#34;</span>: <span style="color:#e6db74">&#34;&lt;[^&gt;]+\\sdata-v(?:ue)?-&#34;</span>,
-  <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;Vue.js.png&#34;</span>,
-  <span style="color:#f92672">&#34;js&#34;</span>: {
-    <span style="color:#f92672">&#34;Vue.version&#34;</span>: <span style="color:#e6db74">&#34;^(.+)$\\;version:\\1&#34;</span>
-  },
-  <span style="color:#f92672">&#34;script&#34;</span>: [
-    <span style="color:#e6db74">&#34;vue[.-]([\\d.]*\\d)[^/]*\\.js\\;version:\\1&#34;</span>,
-    <span style="color:#e6db74">&#34;(?:/([\\d.]+))?/vue(?:\\.min)?\\.js\\;version:\\1&#34;</span>
-  ],
-  <span style="color:#f92672">&#34;website&#34;</span>: <span style="color:#e6db74">&#34;https://vuejs.org&#34;</span>
-}<span style="color:#960050;background-color:#1e0010">,</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
+  <span style="color:#f92672">&#34;Vue.js&#34;</span>: {
+    <span style="color:#f92672">&#34;cats&#34;</span>: [
+      <span style="color:#ae81ff">12</span>
+    ],
+    <span style="color:#f92672">&#34;html&#34;</span>: <span style="color:#e6db74">&#34;&lt;[^&gt;]+\\sdata-v(?:ue)?-&#34;</span>,
+    <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;Vue.js.png&#34;</span>,
+    <span style="color:#f92672">&#34;js&#34;</span>: {
+      <span style="color:#f92672">&#34;Vue.version&#34;</span>: <span style="color:#e6db74">&#34;^(.+)$\\;version:\\1&#34;</span>
+    },
+    <span style="color:#f92672">&#34;script&#34;</span>: [
+      <span style="color:#e6db74">&#34;vue[.-]([\\d.]*\\d)[^/]*\\.js\\;version:\\1&#34;</span>,
+      <span style="color:#e6db74">&#34;(?:/([\\d.]+))?/vue(?:\\.min)?\\.js\\;version:\\1&#34;</span>
+    ],
+    <span style="color:#f92672">&#34;website&#34;</span>: <span style="color:#e6db74">&#34;https://vuejs.org&#34;</span>
+  }
+}
 </code></pre></div><p>Knowing this, we can see how easily we could trick this tool into detecting a <strong>Vuejs</strong> environment by just inserting the tag <code>&lt;a data-v-pwn2win&gt;</code> into our page:</p>
 <p><img src="https://i.imgur.com/kN0MNlq.png" alt="Vuejs being detected"></p>
 <h2 id="practical-overview">Practical Overview</h2>
 <p>The challenge has three pages:</p>
-<p><strong>Main:</strong> This page is an HTML page editor that allows the user to change code from three different tabs: <em>home</em>, <em>about</em>, and <em>contact</em>. The user can change everything on the page except for a meta tag with <em>Content-Security-Policy</em> setting the default source to none. There is also a weaponlyzer button that sends this page&rsquo;s content to the server and displays the wappalyzer result after executing it in all these pages.
-<strong>Check:</strong> This page receives a same-origin URL as an argument and shows the wappalyzer result for the given address.
+<p><strong>Main:</strong> This page is an HTML page editor that allows the user to change code from three different tabs: <em>home</em>, <em>about</em>, and <em>contact</em>. The user can change everything on the page except for a meta tag with <em>Content-Security-Policy</em> setting the default source to none. There is also a weaponlyzer button that sends this page&rsquo;s content to the server and displays the wappalyzer result after executing it in all these pages.<br>
+<strong>Check:</strong> This page receives a same-origin URL as an argument and shows the wappalyzer result for the given address.<br>
 <strong>Bug report:</strong> It is just a form saying that the admin will analyze the submitted URL with wappayzer through the check page.</p>
 <p>It&rsquo;s important to highlight some others concerns about the main page:</p>
 <ol>
