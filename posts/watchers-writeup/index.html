@@ -144,18 +144,20 @@
 <p>Running weaponlyzer function with one of these two tags on our page, leads to the described error message with our home URL. Just as illustrated below:</p>
 <p><img src="https://i.imgur.com/ND1jM8o.png" alt=""></p>
 <p>Okay, now that we can create files in the server, we have a URL to send to the bot, but we still don&rsquo;t know what to do with it. To achieve this goal, let&rsquo;s go back to the technical overview, where I point out that we can force some wappalyzer responses. In that example, I choose Vue to demonstrate my point, but let&rsquo;s try something different now, using the <strong>AMP Plugin</strong> shown below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON"><span style="color:#e6db74">&#34;AMP Plugin&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
-  <span style="color:#f92672">&#34;cats&#34;</span>: [
-    <span style="color:#ae81ff">1</span>,
-    <span style="color:#ae81ff">5</span>
-  ],
-  <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;Accelerated-Mobile-Pages.svg&#34;</span>,
-  <span style="color:#f92672">&#34;implies&#34;</span>: <span style="color:#e6db74">&#34;WordPress&#34;</span>,
-  <span style="color:#f92672">&#34;meta&#34;</span>: {
-    <span style="color:#f92672">&#34;generator&#34;</span>: <span style="color:#e6db74">&#34;^AMP Plugin v(\\d+\\.\\d+.*)$\\;version:\\1&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
+  <span style="color:#f92672">&#34;AMP Plugin&#34;</span>: {
+    <span style="color:#f92672">&#34;cats&#34;</span>: [
+      <span style="color:#ae81ff">1</span>,
+      <span style="color:#ae81ff">5</span>
+    ],
+    <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;Accelerated-Mobile-Pages.svg&#34;</span>,
+    <span style="color:#f92672">&#34;implies&#34;</span>: <span style="color:#e6db74">&#34;WordPress&#34;</span>,
+    <span style="color:#f92672">&#34;meta&#34;</span>: {
+      <span style="color:#f92672">&#34;generator&#34;</span>: <span style="color:#e6db74">&#34;^AMP Plugin v(\\d+\\.\\d+.*)$\\;version:\\1&#34;</span>
+    },
+    <span style="color:#f92672">&#34;website&#34;</span>: <span style="color:#e6db74">&#34;https://amp-wp.org&#34;</span>
   },
-  <span style="color:#f92672">&#34;website&#34;</span>: <span style="color:#e6db74">&#34;https://amp-wp.org&#34;</span>
-}<span style="color:#960050;background-color:#1e0010">,</span>
+}
 </code></pre></div><p>This version indicated in the regex means that it will be replaced by the first <code>\1</code> group in the wappalyzer response. Also, since the version is grouped by a <code>(\\d+\\.\\d+.*)</code>, it means that we can change the value to an arbitrary text using a special crafted meta tag:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;AMP Plugin v1.2.a my arbitrary text&#34;</span>&gt;
 </code></pre></div><p>Resulting in:</p>
@@ -182,7 +184,7 @@
 <ol>
 <li>Place in the home tab the ReDoS payload:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;content&#34;</span>&gt;&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IMPERIA 46197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197966228761662296:&#34;</span>/&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IMPERIA 46197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197966228761662296:&#34;</span>/&gt;
 </code></pre></div><ol start="2">
 <li>Place in the about tab the XSS snippet:</li>
 </ol>
