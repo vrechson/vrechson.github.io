@@ -6,7 +6,16 @@
     <description>Recent content on lemons lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Jun 2020 14:09:33 -0300</lastBuildDate><atom:link href="https://vrechson.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 29 May 2021 14:09:33 -0300</lastBuildDate><atom:link href="https://vrechson.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pwn2win 2021 Small Talk: Write-Up</title>
+      <link>https://vrechson.github.io/posts/small-talk-writeup/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/posts/small-talk-writeup/</guid>
+      <description>&lt;p&gt;From a race condition in postMessage to &lt;a href=&#34;https://github.com/HoLyVieR/prototype-pollution-nsec18/blob/master/paper/JavaScript_prototype_pollution_attack_in_NodeJS.pdf&#34;&gt;prototype pollution&lt;/a&gt;. In this writeup, I will explain how to abuse a wrong fix in the &lt;a href=&#34;https://github.com/robinvdvleuten/shvl&#34;&gt;shvl library&lt;/a&gt; to achive XSS using &lt;a href=&#34;https://www.npmjs.com/package/@popperjs/core&#34;&gt;Popper.js&lt;/a&gt; and solve the &amp;ldquo;Small talk&amp;rdquo; challenge in Pwn2Win 2021.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Pwn2win 2020 Watchers: Write-Up</title>
       <link>https://vrechson.github.io/posts/watchers-writeup/</link>

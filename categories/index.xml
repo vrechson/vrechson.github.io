@@ -6,13 +6,85 @@
     <description>Recent content in Categories on lemons lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Jun 2020 14:09:33 -0300</lastBuildDate><atom:link href="https://vrechson.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 29 May 2021 14:09:33 -0300</lastBuildDate><atom:link href="https://vrechson.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>0day</title>
       <link>https://vrechson.github.io/categories/0day/</link>
-      <pubDate>Wed, 03 Jun 2020 14:09:33 -0300</pubDate>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
       
       <guid>https://vrechson.github.io/categories/0day/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>client-side</title>
+      <link>https://vrechson.github.io/categories/client-side/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/client-side/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CTF</title>
+      <link>https://vrechson.github.io/categories/ctf/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/ctf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postMessage</title>
+      <link>https://vrechson.github.io/categories/postmessage/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/postmessage/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pp</title>
+      <link>https://vrechson.github.io/categories/pp/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/pp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>prototype pollution</title>
+      <link>https://vrechson.github.io/categories/prototype-pollution/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/prototype-pollution/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pwn2win</title>
+      <link>https://vrechson.github.io/categories/pwn2win/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/pwn2win/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>writeup</title>
+      <link>https://vrechson.github.io/categories/writeup/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/writeup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>xss</title>
+      <link>https://vrechson.github.io/categories/xss/</link>
+      <pubDate>Sat, 29 May 2021 14:09:33 -0300</pubDate>
+      
+      <guid>https://vrechson.github.io/categories/xss/</guid>
       <description></description>
     </item>
     
@@ -26,47 +98,11 @@
     </item>
     
     <item>
-      <title>CTF</title>
-      <link>https://vrechson.github.io/categories/ctf/</link>
-      <pubDate>Wed, 03 Jun 2020 14:09:33 -0300</pubDate>
-      
-      <guid>https://vrechson.github.io/categories/ctf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pwn2win</title>
-      <link>https://vrechson.github.io/categories/pwn2win/</link>
-      <pubDate>Wed, 03 Jun 2020 14:09:33 -0300</pubDate>
-      
-      <guid>https://vrechson.github.io/categories/pwn2win/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>redos</title>
       <link>https://vrechson.github.io/categories/redos/</link>
       <pubDate>Wed, 03 Jun 2020 14:09:33 -0300</pubDate>
       
       <guid>https://vrechson.github.io/categories/redos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>writeup</title>
-      <link>https://vrechson.github.io/categories/writeup/</link>
-      <pubDate>Wed, 03 Jun 2020 14:09:33 -0300</pubDate>
-      
-      <guid>https://vrechson.github.io/categories/writeup/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>xss</title>
-      <link>https://vrechson.github.io/categories/xss/</link>
-      <pubDate>Wed, 03 Jun 2020 14:09:33 -0300</pubDate>
-      
-      <guid>https://vrechson.github.io/categories/xss/</guid>
       <description></description>
     </item>
     

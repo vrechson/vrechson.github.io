@@ -3,36 +3,51 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://vrechson.github.io/categories/0day/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/categories/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
   </url><url>
-    <loc>https://vrechson.github.io/categories/client-sde/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+    <loc>https://vrechson.github.io/categories/client-side/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/categories/ctf/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/postmessage/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/posts/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/pp/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/prototype-pollution/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/categories/pwn2win/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/posts/small-talk-writeup/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/writeup/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/xss/</loc>
+    <lastmod>2021-05-29T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/client-sde/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/posts/watchers-writeup/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/categories/redos/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
-  </url><url>
-    <loc>https://vrechson.github.io/categories/writeup/</loc>
-    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
-  </url><url>
-    <loc>https://vrechson.github.io/categories/xss/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/tags/</loc>
