@@ -2,7 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://vrechson.github.io/categories/0day/</loc>
+    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+  </url><url>
     <loc>https://vrechson.github.io/categories/</loc>
+    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/client-sde/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/categories/ctf/</loc>
@@ -14,13 +20,19 @@
     <loc>https://vrechson.github.io/posts/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
-    <loc>https://vrechson.github.io/categories/redos/</loc>
+    <loc>https://vrechson.github.io/categories/pwn2win/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/posts/watchers-writeup/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
+    <loc>https://vrechson.github.io/categories/redos/</loc>
+    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+  </url><url>
     <loc>https://vrechson.github.io/categories/writeup/</loc>
+    <lastmod>2020-06-03T14:09:33-03:00</lastmod>
+  </url><url>
+    <loc>https://vrechson.github.io/categories/xss/</loc>
     <lastmod>2020-06-03T14:09:33-03:00</lastmod>
   </url><url>
     <loc>https://vrechson.github.io/tags/</loc>

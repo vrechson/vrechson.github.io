@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>writeup on lemons lab</title>
-    <link>https://vrechson.github.io/categories/writeup/</link>
-    <description>Recent content in writeup on lemons lab</description>
+    <title>client-sde on lemons lab</title>
+    <link>https://vrechson.github.io/categories/client-sde/</link>
+    <description>Recent content in client-sde on lemons lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Jun 2020 14:09:33 -0300</lastBuildDate><atom:link href="https://vrechson.github.io/categories/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Jun 2020 14:09:33 -0300</lastBuildDate><atom:link href="https://vrechson.github.io/categories/client-sde/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pwn2win 2020 Watchers: Write-Up</title>
       <link>https://vrechson.github.io/posts/watchers-writeup/</link>
