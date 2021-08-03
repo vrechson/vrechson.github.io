@@ -53,7 +53,7 @@
   <h1>Pwn2win 2021 Small Talk: Write-Up</h1>
   <time datetime=2021-05-29T14:09:33-0300 class="post-date">Sat, May 29, 2021</time>
   <p>From a race condition in postMessage to <a href="https://github.com/HoLyVieR/prototype-pollution-nsec18/blob/master/paper/JavaScript_prototype_pollution_attack_in_NodeJS.pdf">prototype pollution</a>. In this writeup, I will explain how to abuse a wrong fix in the <a href="https://github.com/robinvdvleuten/shvl">shvl library</a> to achive XSS using <a href="https://www.npmjs.com/package/@popperjs/core">Popper.js</a> and solve the &ldquo;Small talk&rdquo; challenge in Pwn2Win 2021.</p>
-<p><img src="images/vSQHptE.png" alt="Challenge"></p>
+<p><img src="/images/vSQHptE.png" alt="Challenge"></p>
 <p><strong>Description:</strong> Take a little break in your journey, read some of our extravagant knowledgement to become your best version&hellip;</p>
 <p>&hellip;and, of course, share your sentences with us.</p>
 <p><strong>Solves:</strong> 16</p>
@@ -62,7 +62,7 @@
 <h2 id="challenge-overview">Challenge Overview</h2>
 <p>There are not many elements on the challenge page besides a form and a big sentence in the body expressing the most confident thoughts of the present. After some page loads, it is also possible to see that this sentence changes on every page refresh.</p>
 <p>The first clue that this is a client-side challenge is the existence of a form to submit an address for the administrator to review. So the next step is to take a look at the page&rsquo;s source code.</p>
-<p><img src="images/cvq2NCk.png" alt="Challenge Page"></p>
+<p><img src="/images/cvq2NCk.png" alt="Challenge Page"></p>
 <h2 id="solving-the-challenge">Solving the challenge</h2>
 <p>Looking at the page&rsquo;s code, the content of the script tag should grab the user attention, especially where it defines an <code>eventListener</code>, which makes no source domain checks. Then, the library <a href="https://www.npmjs.com/package/shvl">shvl</a> parses the message and puts its content into a quote Object, whose content will be safely put on the web page. At the end of the execution, the library <a href="https://www.npmjs.com/package/@popperjs/core">Popper.js</a> is initialized to display a pretty tooltip when the user hovers the send button.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Javascript" data-lang="Javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-button&#39;</span>);
